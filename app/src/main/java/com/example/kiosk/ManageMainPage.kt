@@ -9,30 +9,28 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 
-class MainActivity : AppCompatActivity() {
+class ManageMainPage : AppCompatActivity(){
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         supportActionBar?.hide()
         enableEdgeToEdge()
-        setContentView(R.layout.activity_main)
-        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main)) { v, insets ->
+        setContentView(R.layout.manager_main_page)
+        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.managerMainPage)) { v, insets ->
             val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
             insets
         }
 
-        val mainManageBtn = findViewById<Button>(R.id.mainManageBtn);
-        val mainConsumerBtn = findViewById<Button>(R.id.mainConsumerBtn);
+        val backBtn = findViewById<Button>(R.id.managerMainPage_backBtn);
+        val registeBtn = findViewById<Button>(R.id.managerMainPage_registerBtn);
 
-        mainManageBtn.setOnClickListener(){
-            val intent = Intent(this,ManageMainPage::class.java)
-            startActivity(intent)
+        backBtn.setOnClickListener(){
+            finish()
         }
 
-        mainConsumerBtn.setOnClickListener(){
-            val intent = Intent(this,ConsumerMainPage::class.java)
+        registeBtn.setOnClickListener(){
+            val intent = Intent(this,ManagerRegisterPage::class.java)
             startActivity(intent)
         }
-
     }
 }

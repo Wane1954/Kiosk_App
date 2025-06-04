@@ -25,6 +25,7 @@
             android:textSize="50dp"/>
 
         <Button
+            android:id="@+id/mainManageBtn"
             android:layout_margin="10dp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -34,6 +35,7 @@
             />
 
         <Button
+            android:id="@+id/mainConsumerBtn"
             android:layout_margin="10dp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"

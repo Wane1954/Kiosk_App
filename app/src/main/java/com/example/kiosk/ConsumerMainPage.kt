@@ -9,29 +9,22 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 
-class MainActivity : AppCompatActivity() {
+class ConsumerMainPage : AppCompatActivity(){
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         supportActionBar?.hide()
         enableEdgeToEdge()
-        setContentView(R.layout.activity_main)
-        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main)) { v, insets ->
+        setContentView(R.layout.consumer_main_page)
+        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.consumerMainPage)) { v, insets ->
             val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
             insets
         }
 
-        val mainManageBtn = findViewById<Button>(R.id.mainManageBtn);
-        val mainConsumerBtn = findViewById<Button>(R.id.mainConsumerBtn);
+        val backBtn = findViewById<Button>(R.id.consumerMainPage_backBtn);
 
-        mainManageBtn.setOnClickListener(){
-            val intent = Intent(this,ManageMainPage::class.java)
-            startActivity(intent)
-        }
-
-        mainConsumerBtn.setOnClickListener(){
-            val intent = Intent(this,ConsumerMainPage::class.java)
-            startActivity(intent)
+        backBtn.setOnClickListener(){
+            finish()
         }
 
     }

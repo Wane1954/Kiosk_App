@@ -24,7 +24,7 @@
             </intent-filter>
         </activity>
 
-        <activity android:name=".ManageMainPage" />
+        <activity android:name=".ManagerMainPage" />
         <activity android:name=".ManagerRegisterPage" />
         <activity android:name=".ConsumerMainPage" />
     </application>

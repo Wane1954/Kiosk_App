@@ -2,7 +2,6 @@ package com.example.kiosk
 
 import android.content.Intent
 import android.os.Bundle
-import android.provider.Telephony.Mms.Intents
 import android.widget.Button
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
@@ -25,7 +24,7 @@ class MainActivity : AppCompatActivity() {
         val mainConsumerBtn = findViewById<Button>(R.id.mainConsumerBtn);
 
         mainManageBtn.setOnClickListener(){
-            val intent = Intent(this,ManageMainPage::class.java)
+            val intent = Intent(this,ManagerMainPage::class.java)
             startActivity(intent)
         }
 

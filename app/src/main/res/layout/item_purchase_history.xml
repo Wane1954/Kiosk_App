@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@drawable/display2"
+    android:gravity="center"
+    android:orientation="horizontal"
+    android:layout_marginBottom="10dp">
+
+    <TextView
+        android:id="@+id/itemPurchaseHistory_time"
+        android:layout_width="200dp"
+        android:layout_height="wrap_content"
+        android:layout_marginRight="15dp"
+        android:textSize="20dp"
+        android:text="시간"
+        android:visibility="gone"
+        />
+
+    <TextView
+        android:id="@+id/itemPurchaseHistory_name"
+        android:layout_width="300dp"
+        android:layout_height="wrap_content"
+        android:layout_marginRight="15dp"
+        android:textStyle="bold"
+        android:textSize="30dp"
+        android:text="제품 이름"
+        />
+    <TextView
+        android:layout_marginLeft="5dp"
+        android:id="@+id/itemPurchaseHistory_num"
+        android:layout_width="100dp"
+        android:layout_height="wrap_content"
+        android:gravity="end|center_vertical"
+        android:textSize="30dp"
+        android:text="N개"
+        />
+
+    <TextView
+        android:id="@+id/itemPurchaseHistory_pirce"
+        android:layout_width="0dp"
+        android:layout_weight="1"
+        android:layout_height="wrap_content"
+        android:gravity="end|center_vertical"
+        android:textSize="30dp"
+        android:text="0원"/>
+
+</LinearLayout>

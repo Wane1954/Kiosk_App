@@ -2,8 +2,8 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:id="@+id/consumerMainPage"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    android:id="@+id/consumerPurchasePage"
+    android:background="#F8F6EF">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -17,40 +17,50 @@
             android:gravity="center"
             android:background="#E4C7B8">
 
-            <Button
-                android:id="@+id/consumerMainPage_backBtn"
-                android:layout_margin="30dp"
+            <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textSize="30dp"
-                android:textStyle="bold"
-                android:textColor="#58403C"
-                android:background="@drawable/btn1"
-                android:text="뒤로가기"/>
+                android:layout_margin="20dp"
+                android:orientation="vertical">
 
-            <LinearLayout
-                android:layout_width="250dp"
-                android:layout_height="wrap_content"
-                android:gravity="center">
+                <ImageView
+                    android:id="@+id/consumerPurchase_QRImg"
+                    android:layout_width="500dp"
+                    android:layout_height="500dp"
+                    android:scaleType="fitXY"/>
 
                 <TextView
-                    android:layout_width="wrap_content"
+                    android:id="@+id/consumerPurchase_address"
+                    android:layout_marginTop="20dp"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:textSize="70dp"
-                    android:text="캐\n릭\n터\n배\n치"/>
+                    android:gravity="center"
+                    android:textSize="30dp"
+                    android:textStyle="bold"
+                    android:text="계좌번호"/>
 
             </LinearLayout>
 
-            <Button
-                android:id="@+id/consumerMainPage_purchaseBtn"
-                android:layout_margin="15dp"
+
+            <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:textSize="60dp"
-                android:textColor="#58403C"
-                android:textStyle="bold"
-                android:background="@drawable/btn1"
-                android:text="구매"/>
+                android:layout_height="0dp"
+                android:layout_weight="1"
+                android:layout_marginTop="20dp"
+                android:layout_margin="20dp"
+                android:gravity="center">
+
+                <Button
+                    android:id="@+id/consumerPurchase_backBtn"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/btn1"
+                    android:textSize="30dp"
+                    android:textColor="#58403C"
+                    android:textStyle="bold"
+                    android:text="돌아가기"/>
+
+            </LinearLayout>
 
         </LinearLayout>
 
@@ -78,18 +88,17 @@
                     android:layout_margin="10dp"
                     android:background="#C9B4A0">
 
-                    <GridLayout
-                        android:id="@+id/cosumerMainPage_productContainer"
+                    <LinearLayout
+                        android:id="@+id/consumerPurchase_container"
                         android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:columnCount="4"
-                        android:orientation="horizontal">
-
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical">
                         <!-- 여기에 상품 배치 -->
 
 
+
                         <!-- _____________ -->
-                    </GridLayout>
+                    </LinearLayout>
                 </ScrollView>
             </LinearLayout>
 
@@ -104,16 +113,7 @@
                 android:layout_gravity="center">
 
                 <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_marginRight="10dp"
-                    android:layout_height="match_parent"
-                    android:textSize="50dp"
-                    android:gravity="center"
-                    android:textColor="#F8F6EF"
-                    android:text="총 가격"
-                    android:background="@drawable/display1"/>
-                <TextView
-                    android:id="@+id/consumerMainPage_totalText"
+                    android:id="@+id/consumerPurchase_totalText"
                     android:layout_width="0dp"
                     android:layout_weight="1"
                     android:layout_marginRight="10dp"
@@ -124,15 +124,6 @@
                     android:text="0원"
                     android:background="@drawable/display1"/>
 
-                <Button
-                    android:id="@+id/consumerMainPage_clearBtn"
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:background="@drawable/btn1"
-                    android:textSize="30dp"
-                    android:textColor="#58403C"
-                    android:textStyle="bold"
-                    android:text="비우기"/>
 
             </LinearLayout>
 
@@ -141,6 +132,7 @@
 
 
     </LinearLayout>
+
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

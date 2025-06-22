@@ -38,6 +38,7 @@
                 android:text="물품 등록"/>
 
             <Button
+                android:id="@+id/managerMainPage_historyBtn"
                 android:layout_margin="15dp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -46,6 +47,7 @@
                 android:background="@drawable/btn1"
                 android:text="판매 기록"/>
             <Button
+                android:id="@+id/managerMainPage_paymentBtn"
                 android:layout_margin="15dp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -61,31 +63,32 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:orientation="vertical">
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_margin="30dp"
-                android:background="#C9B4A0">
-                <GridLayout
-                    android:id="@+id/productContainer"
+
+                <ScrollView
+                    xmlns:android="http://schemas.android.com/apk/res/android"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:layout_marginLeft="15dp"
-                    android:layout_marginRight="15dp"
-                    android:columnCount="4"
-                    android:orientation="horizontal">
+                    android:fillViewport="true"
+                    android:layout_margin="30dp"
+                    android:background="#C9B4A0">
 
-                    <!-- 여기에 상품 배치 -->
+                    <GridLayout
+                        android:id="@+id/managerMainPage_productContainer"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:columnCount="4"
+                        android:orientation="horizontal">
+
+                        <!-- 여기에 상품 배치 -->
 
 
 
 
-                    <!-- _____________ -->
+                        <!-- _____________ -->
 
-                </GridLayout>
-            </LinearLayout>
+                    </GridLayout>
+                </ScrollView>
         </LinearLayout>
-
     </LinearLayout>
 
 

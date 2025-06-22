@@ -26,7 +26,11 @@
 
         <activity android:name=".ManagerMainPage" />
         <activity android:name=".ManagerRegisterPage" />
+        <activity android:name=".ManagerPurchaseHistoryPage" />
+        <activity android:name=".ManagerPaymentMethodPage" />
+        <activity android:name=".ManagerEditPage" />
         <activity android:name=".ConsumerMainPage" />
+        <activity android:name=".ConsumerPurchasePage" />
     </application>
 
 </manifest>

@@ -1,5 +1,6 @@
 package com.example.kiosk
 
+
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
@@ -15,7 +16,7 @@ import com.bumptech.glide.Glide
 import java.io.File
 import java.io.FileOutputStream
 
-class ManagerRegisterPage : AppCompatActivity() {
+class ManagerEditPage : AppCompatActivity() {
 
     private val PICK_IMAGE_REQUEST = 1
     private lateinit var imgView: ImageView
@@ -26,8 +27,8 @@ class ManagerRegisterPage : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         supportActionBar?.hide()
         enableEdgeToEdge()
-        setContentView(R.layout.manager_register_page)
-        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.managerRegisterPage)) { v, insets ->
+        setContentView(R.layout.manager_item_product_edit)
+        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.managerEditPage)) { v, insets ->
             val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
             insets
@@ -55,24 +56,49 @@ class ManagerRegisterPage : AppCompatActivity() {
                     )
         }
 
-        
-        //저장부분
-        val confirmBtn = findViewById<Button>(R.id.managerRegisterPage_confirmBtn)
-        val cancelBtn = findViewById<Button>(R.id.managerRegisterPage_cancelBtn)
 
-        val nameId = findViewById<EditText>(R.id.managerRegisterPage_name)
-        val priceId = findViewById<EditText>(R.id.managerRegisterPage_price)
-        val stockId = findViewById<EditText>(R.id.managerRegisterPage_stock)
+        //저장부분
+        val confirmBtn = findViewById<Button>(R.id.managerEditPage_confirmBtn)
+        val cancelBtn = findViewById<Button>(R.id.managerEditPage_cancelBtn)
+        val deleteBtn = findViewById<Button>(R.id.managerEditPage_deleteBtn)
+
+        val nameId = findViewById<EditText>(R.id.managerEditPage_name)
+        val priceId = findViewById<EditText>(R.id.managerEditPage_price)
+        val stockId = findViewById<EditText>(R.id.managerEditPage_stock)
+        val inStockId = findViewById<EditText>(R.id.managerEditPage_inStock)
+
+
+        //수정될 Product를 전달 받아 출력
+        val product = intent.getSerializableExtra("product") as? Product
+
+        product?.let {
+            findViewById<EditText>(R.id.managerEditPage_name).setText(it.name)
+            findViewById<EditText>(R.id.managerEditPage_price).setText(it.price.toString())
+            findViewById<EditText>(R.id.managerEditPage_stock).setText(it.stock.toString())
+            findViewById<EditText>(R.id.managerEditPage_inStock).setText(it.inStock.toString())
+
+            if(it.imgPath == ""){
+                val imageView = findViewById<ImageView>(R.id.managerEditPage_img)
+                imageView.setImageResource(R.drawable.no_img)
+            }
+            else{
+                findViewById<ImageView>(R.id.managerEditPage_img).setImageURI(it.imgPath.toUri())
+            }
+        }
 
         //저장 버튼 동작
         confirmBtn.setOnClickListener(){
-
-            val id = (System.currentTimeMillis() % Int.MAX_VALUE).toInt()
+            var id = 0
+            if (product != null) {
+                id = product.id
+            } else {
+                id = 0
+            }
             val name: String = nameId.text.toString()   // 제품 이름
             val price: Int = priceId.text.toString().toIntOrNull() ?: 0     // 가격
             val stock: Int = stockId.text.toString().toIntOrNull() ?: 0   // 총 재고 수량
-            val inStock: Int  = stockId.text.toString().toIntOrNull() ?: 0   // 현재 남은 수량
-            val imgPath: String = selectedImgUri?.toString() ?: ""
+            val inStock: Int  = inStockId.text.toString().toIntOrNull() ?: 0   // 현재 남은 수량
+            val imgPath: String = selectedImgUri?.toString() ?: product?.imgPath ?: ""
 
             // 제품 객체 생성
             val product = Product(
@@ -87,28 +113,38 @@ class ManagerRegisterPage : AppCompatActivity() {
 
             // 저장
             val storage = ProductStorage(this)
-            storage.saveProduct(product)
+            storage.editProduct(product)
 
             //다시 페이지로 돌아가기
             finish()
-
-            /*// 불러오기
-            val loadedCola = storage.loadProduct("콜라")
-            if (loadedCola != null) {
-                Log.d("불러온 상품", loadedCola.name)
-            }*/
         }
+
 
         //취소 버튼 동작
         cancelBtn.setOnClickListener(){
             finish()
         }
 
+        //삭제 버튼 동작
+        deleteBtn.setOnClickListener(){
+            var id = 0
+            if (product != null) {
+                id = product.id
+            } else {
+                id = 0
+            }
+            val storage = ProductStorage(this)
+            storage.deleteProduct(id.toString())
+
+            finish()
+        }
+
+
 
 
         //이미지 입력
-        val imgBtn = findViewById<Button>(R.id.managerRegisterPage_imgBtn)
-        imgView = findViewById(R.id.managerRegisterPage_img)
+        val imgBtn = findViewById<Button>(R.id.managerEditPage_imgBtn)
+        imgView = findViewById(R.id.managerEditPage_img)
 
         imgBtn.setOnClickListener(){
             val intent = Intent(Intent.ACTION_PICK)
@@ -116,6 +152,7 @@ class ManagerRegisterPage : AppCompatActivity() {
             startActivityForResult(intent, PICK_IMAGE_REQUEST)
         }
     }
+
 
     // 선택된 이미지의 결과 처리
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {

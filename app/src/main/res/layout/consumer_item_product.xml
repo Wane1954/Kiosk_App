@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_columnWeight="1"
+    android:orientation="vertical"
+    android:layout_gravity="center"
+    android:layout_margin="5dp"
+    android:padding="10dp"
+    android:background="#9F766C">
+
+    <!-- 이미지 + 왼쪽 위에 겹쳐진 숫자 -->
+    <FrameLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center">
+
+        <!-- 상품 이미지 -->
+        <ImageView
+            android:id="@+id/consumer_item_img"
+            android:layout_marginTop="10dp"
+            android:layout_marginBottom="10dp"
+            android:layout_width="200dp"
+            android:layout_height="240dp"
+            android:scaleType="fitXY"
+            android:src="@drawable/no_img" />
+
+        <!-- 선택된 수량 뱃지 -->
+        <TextView
+            android:id="@+id/consumer_item_count"
+            android:layout_marginTop="10dp"
+            android:layout_width="70dp"
+            android:layout_height="70dp"
+            android:layout_gravity="top|start"
+            android:gravity="center"
+            android:text="0"
+            android:textStyle="bold"
+            android:textColor="#58403C"
+            android:textSize="35dp"
+            android:background="@drawable/choose_alert"
+            android:visibility="invisible"/>
+
+        <TextView
+            android:id="@+id/consumer_item_stockoutAlert"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:textSize="40dp"
+            android:text="재고소진"
+            android:layout_gravity="center"
+            android:gravity="center"
+            android:textStyle="bold"
+            android:textColor="#58403C"
+            android:background="@drawable/display2"
+            android:visibility="invisible"
+            />
+    </FrameLayout>
+
+    <!-- 이름과 가격 -->
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/consumer_item_name"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="이름"
+            android:textStyle="bold"
+            android:textSize="30dp"
+            android:gravity="center" />
+
+        <TextView
+            android:id="@+id/consumer_item_price"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="N원"
+            android:textSize="25dp"
+            android:gravity="center" />
+    </LinearLayout>
+</LinearLayout>

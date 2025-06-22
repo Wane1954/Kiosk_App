@@ -15,7 +15,7 @@ import com.bumptech.glide.Glide
 import java.io.File
 import java.io.FileOutputStream
 
-class ManagerRegisterPage : AppCompatActivity() {
+class ManagerPaymentMethodPage: AppCompatActivity() {
 
     private val PICK_IMAGE_REQUEST = 1
     private lateinit var imgView: ImageView
@@ -26,13 +26,12 @@ class ManagerRegisterPage : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         supportActionBar?.hide()
         enableEdgeToEdge()
-        setContentView(R.layout.manager_register_page)
-        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.managerRegisterPage)) { v, insets ->
+        setContentView(R.layout.manager_payment_page)
+        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.managerPaymentPage)) { v, insets ->
             val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
             insets
         }
-
         if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.R) {
             window.setDecorFitsSystemWindows(false) // 시스템 바 영역을 뷰가 차지하게 함
             window.insetsController?.apply {
@@ -40,7 +39,8 @@ class ManagerRegisterPage : AppCompatActivity() {
                 hide(android.view.WindowInsets.Type.statusBars() or android.view.WindowInsets.Type.navigationBars())
 
                 // 바를 스와이프로 잠깐 보여주도록 설정
-                systemBarsBehavior = android.view.WindowInsetsController.BEHAVIOR_SHOW_TRANSIENT_BARS_BY_SWIPE
+                systemBarsBehavior =
+                    android.view.WindowInsetsController.BEHAVIOR_SHOW_TRANSIENT_BARS_BY_SWIPE
             }
         } else {
             // API 30 미만은 legacy 방식 사용
@@ -55,60 +55,66 @@ class ManagerRegisterPage : AppCompatActivity() {
                     )
         }
 
+        //메인 동작
+
+        val cancelBtn = findViewById<Button>(R.id.managerPaymentPage_cancelBtn)
+        val cofirmBtn = findViewById<Button>(R.id.managerPaymentPage_confirmBtn)
+        val imgBtn = findViewById<Button>(R.id.managerPaymentPage_imgBtn)
+
+        imgView = findViewById(R.id.managerPaymentPage_img)
+        val nameId = findViewById<EditText>(R.id.managerPaymentPage_name)
+        val accountId = findViewById<EditText>(R.id.managerPaymentPage_account)
+
         
-        //저장부분
-        val confirmBtn = findViewById<Button>(R.id.managerRegisterPage_confirmBtn)
-        val cancelBtn = findViewById<Button>(R.id.managerRegisterPage_cancelBtn)
+        //초기화
+        val storage = PaymentMethodStorage(this)
+        val payment = storage.load()
 
-        val nameId = findViewById<EditText>(R.id.managerRegisterPage_name)
-        val priceId = findViewById<EditText>(R.id.managerRegisterPage_price)
-        val stockId = findViewById<EditText>(R.id.managerRegisterPage_stock)
+        payment?.let {
+            nameId.setText(it.bankName)
+            accountId.setText(it.accountNumber)
 
-        //저장 버튼 동작
-        confirmBtn.setOnClickListener(){
-
-            val id = (System.currentTimeMillis() % Int.MAX_VALUE).toInt()
-            val name: String = nameId.text.toString()   // 제품 이름
-            val price: Int = priceId.text.toString().toIntOrNull() ?: 0     // 가격
-            val stock: Int = stockId.text.toString().toIntOrNull() ?: 0   // 총 재고 수량
-            val inStock: Int  = stockId.text.toString().toIntOrNull() ?: 0   // 현재 남은 수량
-            val imgPath: String = selectedImgUri?.toString() ?: ""
-
-            // 제품 객체 생성
-            val product = Product(
-                id,
-                name,
-                price,
-                stock,
-                inStock,
-                imgPath,
-                0
-            )
-
-            // 저장
-            val storage = ProductStorage(this)
-            storage.saveProduct(product)
-
-            //다시 페이지로 돌아가기
-            finish()
-
-            /*// 불러오기
-            val loadedCola = storage.loadProduct("콜라")
-            if (loadedCola != null) {
-                Log.d("불러온 상품", loadedCola.name)
-            }*/
+            val qrFile = File(it.qrImagePath)
+            if (qrFile.exists()) {
+                Glide.with(this)
+                    .load(qrFile)
+                    .placeholder(R.drawable.qr_sample)
+                    .error(R.drawable.qr_sample)
+                    .into(imgView)
+            } else {
+                imgView.setImageResource(R.drawable.qr_sample)
+            }
         }
 
-        //취소 버튼 동작
+
+
+        //취소 버튼
         cancelBtn.setOnClickListener(){
             finish()
         }
 
+        //등록 버튼
+        cofirmBtn.setOnClickListener(){
+            val name: String = nameId.text.toString()   // 은행 이름
+            val account: String =  accountId.text.toString() ?: ""     // 계좌 번호
+            val imgPath: String = selectedImgUri?.toString() ?: ""
 
+            // 제품 객체 생성
+            val paymentMethod = PaymentMethod(
+                name,
+                account,
+                imgPath
+            )
+
+            // 저장
+            val storage = PaymentMethodStorage(this)
+            storage.save(paymentMethod)
+
+            finish()
+        }
 
         //이미지 입력
-        val imgBtn = findViewById<Button>(R.id.managerRegisterPage_imgBtn)
-        imgView = findViewById(R.id.managerRegisterPage_img)
+
 
         imgBtn.setOnClickListener(){
             val intent = Intent(Intent.ACTION_PICK)
@@ -116,6 +122,7 @@ class ManagerRegisterPage : AppCompatActivity() {
             startActivityForResult(intent, PICK_IMAGE_REQUEST)
         }
     }
+
 
     // 선택된 이미지의 결과 처리
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
@@ -130,8 +137,8 @@ class ManagerRegisterPage : AppCompatActivity() {
                     // 복사한 파일 경로를 Glide로 로드
                     Glide.with(this)
                         .load(File(copiedPath))
-                        .placeholder(R.drawable.no_img)
-                        .error(R.drawable.no_img)
+                        .placeholder(R.drawable.qr_sample)
+                        .error(R.drawable.qr_sample)
                         .into(imgView)
 
                     // 필요하면 경로를 저장해두고, 서버 저장 시 경로 전달
